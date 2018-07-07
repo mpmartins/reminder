@@ -31,11 +31,15 @@ public class Reminder {
 	}
 	
 	public Reminder(String name, String description, LocalDate dueDate) {
-		super();
+		this(name, description, dueDate, ReminderStatus.NOTDONE);
+	}
+	
+	public Reminder(String name, String description, LocalDate dueDate, ReminderStatus status) {
+		this();
 		this.name = name;
 		this.description = description;
 		this.dueDate = dueDate;
-		this.status = ReminderStatus.NOTDONE;
+		this.status = status;
 	}
 
 	public Long getId() {
@@ -80,8 +84,8 @@ public class Reminder {
 
 	@Override
 	public String toString() {
-		return String.format("Reminder [id=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", id,
-				version, name, description, dueDate, status);
+		return String.format("Reminder [id=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", 
+				id, version, name, description, dueDate, status);
 	}
 
 }

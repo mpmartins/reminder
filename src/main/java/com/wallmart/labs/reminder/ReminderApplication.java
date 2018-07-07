@@ -9,6 +9,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 
 import com.wallmart.labs.reminder.domain.Reminder;
+import com.wallmart.labs.reminder.domain.ReminderStatus;
 import com.wallmart.labs.reminder.repository.ReminderRepository;
 
 @SpringBootApplication
@@ -17,17 +18,25 @@ public class ReminderApplication implements ApplicationListener<ApplicationReady
 	public static void main(String[] args) {
 		SpringApplication.run(ReminderApplication.class, args);
 	}
-	
+
 	@Autowired
-    private ReminderRepository reminderRepository;
+	private ReminderRepository reminderRepository;
 
-    @Override
-    public void onApplicationEvent(final ApplicationReadyEvent event) {
-        seedData();
-    }
+	@Override
+	public void onApplicationEvent(final ApplicationReadyEvent event) {
+		seedData();
+	}
 
-    private void seedData() {
-    	reminderRepository.save(new Reminder("Wash clothes", "", LocalDate.now()));
-    	reminderRepository.save(new Reminder("Finish party invitations", "", LocalDate.now()));
-    }
+	private void seedData() {
+		Reminder reminder = new Reminder("Finish first version", "", LocalDate.of(2018, 7, 7), ReminderStatus.DONE);
+		reminderRepository.save(reminder);
+		
+		reminderRepository.save(new Reminder("Add Swagger-UI", "", LocalDate.of(2018, 7, 7)));
+		
+		reminderRepository.save(new Reminder("Send e-mail with repository link", "", LocalDate.of(2018, 7, 12)));
+		
+		reminderRepository.save(new Reminder("Wash clothes", "", LocalDate.of(2018, 7, 7), ReminderStatus.DONE));
+		
+		reminderRepository.save(new Reminder("Finish barbeque invitations", "", LocalDate.of(2018, 7, 9)));
+	}
 }
