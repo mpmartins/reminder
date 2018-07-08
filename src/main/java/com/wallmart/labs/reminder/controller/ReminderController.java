@@ -70,7 +70,7 @@ public class ReminderController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<Reminder> updateArticle(@RequestBody Reminder reminder) {
+	public ResponseEntity<Reminder> update(@RequestBody Reminder reminder) {
 		reminderRepository.save(reminder);
 		return new ResponseEntity<Reminder>(reminder, HttpStatus.OK);
 	}
