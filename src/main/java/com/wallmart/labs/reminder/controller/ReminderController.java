@@ -22,24 +22,24 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.wallmart.labs.reminder.domain.Reminder;
 import com.wallmart.labs.reminder.domain.ReminderStatus;
-import com.wallmart.labs.reminder.repository.ReminderRepository;
+import com.wallmart.labs.reminder.service.ReminderService;
 
 @RestController
 @RequestMapping("/reminder")
 public class ReminderController {
 
 	@Autowired
-	private ReminderRepository reminderRepository;
+	private ReminderService reminderService;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Reminder> get(@PathVariable("id") Long id) {
-		Reminder reminder = reminderRepository.getOne(id);
+		Reminder reminder = reminderService.getOne(id);
 		return new ResponseEntity<Reminder>(reminder, HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")
 	public ResponseEntity<Iterable<Reminder>> all() {
-		return new ResponseEntity<Iterable<Reminder>>(reminderRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<Iterable<Reminder>>(reminderService.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/filter")
@@ -51,7 +51,7 @@ public class ReminderController {
 		reminder.setDueDate(dueDate);
 		reminder.setStatus(status);
 
-		Iterable<Reminder> list = reminderRepository.findAll(Example.of(reminder), Sort.by("dueDate"));
+		Iterable<Reminder> list = reminderService.findAll(Example.of(reminder), Sort.by("dueDate"));
 		
 		
 		return new ResponseEntity<Iterable<Reminder>>(list, HttpStatus.OK);
@@ -62,22 +62,22 @@ public class ReminderController {
 	public ResponseEntity<Void> add(
 			@RequestBody Reminder reminder, 
 			UriComponentsBuilder builder) {
-		Reminder savedReminder = reminderRepository.save(reminder);
+		Reminder savedReminder = reminderService.save(reminder);
 		HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/reminder/{id}").buildAndExpand(savedReminder.getReminderId()).toUri());
+        headers.setLocation(builder.path("/reminder/{id}").buildAndExpand(savedReminder.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         	
 	}
 	
 	@PutMapping("/update")
 	public ResponseEntity<Reminder> update(@RequestBody Reminder reminder) {
-		reminderRepository.save(reminder);
+		reminderService.save(reminder);
 		return new ResponseEntity<Reminder>(reminder, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-		reminderRepository.deleteById(id);
+		reminderService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}		
 }

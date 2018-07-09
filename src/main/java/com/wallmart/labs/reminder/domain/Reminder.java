@@ -13,38 +13,41 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.springframework.data.domain.Persistable;
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "REMINDERS")
-@SequenceGenerator(name="REMINDERS_SEQ",sequenceName="REMINDERS_SEQ", allocationSize=1)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Reminder {
+@SequenceGenerator(name = "REMINDERS_SEQ", sequenceName = "REMINDERS_SEQ", allocationSize = 1)
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "new" })
+public class Reminder implements Persistable<Long> {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="REMINDERS_SEQ")
-	@Column(name="REMINDER_ID")
-	private Long reminderId;
+	@Nullable
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REMINDERS_SEQ")
+	private Long id;
 
 	@Version
-	@Column(name="VERSION")
+	@Column(name = "VERSION")
 	private Integer version;
 
-	@Column(name="NAME")
+	@Column(name = "NAME")
 	private String name;
 
-	@Column(name="DESCRIPTION")
+	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column(name="DUE_DATE")
+	@Column(name = "DUE_DATE")
 	private LocalDate dueDate;
 
-	@Column(name="STATUS")
+	@Column(name = "STATUS", columnDefinition = "CHAR(10)")
 	@Enumerated(EnumType.STRING)
 	private ReminderStatus status;
 
-	public Long getReminderId() {
-		return reminderId;
+	public Long getId() {
+		return id;
 	}
 
 	public Integer getVersion() {
@@ -85,8 +88,38 @@ public class Reminder {
 
 	@Override
 	public String toString() {
-		return String.format("Reminder [reminderId=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", 
-				reminderId, version, name, description, dueDate, status);
+		return String.format("Reminder [reminderId=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", id,
+				version, name, description, dueDate, status);
 	}
 
+	@Override
+	public boolean isNew() {
+		return null == getId();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reminder other = (Reminder) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }
