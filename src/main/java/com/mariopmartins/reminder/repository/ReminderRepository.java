@@ -1,8 +1,8 @@
-package com.wallmart.labs.reminder.repository;
+package com.mariopmartins.reminder.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.wallmart.labs.reminder.domain.Reminder;
+import com.mariopmartins.reminder.domain.Reminder;
 
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
 

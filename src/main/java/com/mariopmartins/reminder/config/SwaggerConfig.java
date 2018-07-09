@@ -1,4 +1,4 @@
-package com.wallmart.labs.reminder.config;
+package com.mariopmartins.reminder.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
@@ -24,7 +24,7 @@ public class SwaggerConfig {
 	}
 
 	private Predicate<String> postPaths() {
-		return regex("/reminder.*");
+		return regex("/api/.*");
 	}
 
 	private ApiInfo apiInfo() {

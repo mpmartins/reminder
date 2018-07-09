@@ -1,4 +1,4 @@
-package com.wallmart.labs.reminder;
+package com.mariopmartins.reminder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

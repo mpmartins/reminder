@@ -1,4 +1,4 @@
-package com.wallmart.labs.reminder.domain;
+package com.mariopmartins.reminder.domain;
 
 import java.time.LocalDate;
 
@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.domain.Persistable;
-import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -25,33 +27,40 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Reminder implements Persistable<Long> {
 
 	@Id
-	@Nullable
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REMINDERS_SEQ")
 	private Long id;
 
 	@Version
-	@Column(name = "VERSION")
 	private Integer version;
 
-	@Column(name = "NAME")
+	@NotEmpty
+	@Size(max=255)
 	private String name;
 
-	@Column(name = "DESCRIPTION")
+	@Size(max=1000000)
 	private String description;
 
-	@Column(name = "DUE_DATE")
 	private LocalDate dueDate;
 
-	@Column(name = "STATUS", columnDefinition = "CHAR(10)")
+	@Column(columnDefinition = "CHAR(10)")
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private ReminderStatus status;
 
 	public Long getId() {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public Integer getVersion() {
 		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	public String getName() {
@@ -88,8 +97,8 @@ public class Reminder implements Persistable<Long> {
 
 	@Override
 	public String toString() {
-		return String.format("Reminder [reminderId=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", id,
-				version, name, description, dueDate, status);
+		return String.format("Reminder [id=%s, version=%s, name=%s, description=%s, dueDate=%s, status=%s]", 
+				id,	version, name, description, dueDate, status);
 	}
 
 	@Override

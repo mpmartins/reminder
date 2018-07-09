@@ -1,4 +1,4 @@
-package com.wallmart.labs.reminder.domain;
+package com.mariopmartins.reminder.domain;
 
 public enum ReminderStatus {
 
