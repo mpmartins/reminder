@@ -22,3 +22,4 @@ Import as *Existing Maven Project* and run it as *Spring Boot App*.
 
 - Run the application
 - Type the url `http://localhost:8080/swagger.html`: the swagger interface will show the existing endpoints and details on how to use them.
+
