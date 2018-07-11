@@ -81,6 +81,13 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.1</version>
+				<configuration>
+			        <excludes>
+			            <exclude>com/mariopmartins/reminder/domain/*</exclude>
+			            <exclude>com/mariopmartins/reminder/config/*</exclude>
+			            <exclude>com/mariopmartins/reminder/*Application</exclude>
+			        </excludes>
+			    </configuration>
 				<executions>
 					<execution>
 						<goals>

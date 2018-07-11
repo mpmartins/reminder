@@ -24,10 +24,15 @@ import com.mariopmartins.reminder.repository.ReminderRepository;
 
 @RestController
 @RequestMapping("/api/reminders")
-public class ReminderController {
+public class ReminderRestController {
 
 	@Autowired
 	private ReminderRepository reminderRepository;
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Reminder> get(@PathVariable(required=true) Long id) {
+		return ResponseEntity.ok(reminderRepository.getOne(id));
+	}
 	
 	@GetMapping
 	public ResponseEntity<Iterable<Reminder>> list(
@@ -44,8 +49,7 @@ public class ReminderController {
 
 	@PostMapping
 	public ResponseEntity<Reminder> add(@RequestBody @Valid Reminder reminder) {
-		Reminder savedReminder = reminderRepository.save(reminder);
-		return ResponseEntity.ok(savedReminder);
+		return ResponseEntity.ok(reminderRepository.save(reminder));
 	}
 
 	@PutMapping("/{id}")
