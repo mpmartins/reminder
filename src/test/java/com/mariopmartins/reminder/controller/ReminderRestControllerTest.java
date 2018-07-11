@@ -74,8 +74,7 @@ public class ReminderRestControllerTest {
      
         when(reminderRepository.getOne(reminder.getId())).thenReturn(reminder);
      
-        mvc.perform(get("/api/reminders/1")
-          .contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/reminders/1"))
           .andExpect(status().isOk())
           .andExpect(jsonPath("$.name").value(reminder.getName()));
         
