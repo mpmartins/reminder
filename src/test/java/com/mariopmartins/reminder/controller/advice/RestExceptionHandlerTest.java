@@ -14,7 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.mariopmartins.reminder.controller.ReminderRestController;
-import com.mariopmartins.reminder.repository.ReminderRepository;
+import com.mariopmartins.reminder.service.ReminderNotFoundException;
+import com.mariopmartins.reminder.service.ReminderService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ReminderRestController.class)
@@ -24,16 +25,25 @@ public class RestExceptionHandlerTest {
 	private MockMvc mvc;
 
 	@MockBean
-	private ReminderRepository reminderRepository;
+	private ReminderService reminderService;
 
 	@Test
-	public void thatExceptionHappens() throws Exception {
+	public void thatRuntimeExceptionHappens() throws Exception {
 		String message = "Test message";
-		when(reminderRepository.getOne(1L)).thenThrow(new RuntimeException(message));
+		when(reminderService.findById(1L)).thenThrow(new RuntimeException(message));
 
 		mvc.perform(get("/api/reminders/1").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isInternalServerError())
 				.andExpect(jsonPath("$.message").value(message));
 	}
 
+	@Test
+	public void thatReminderNotFoundExceptionHappens() throws Exception {
+		ReminderNotFoundException exception = new ReminderNotFoundException();
+		when(reminderService.findById(1L)).thenThrow(exception);
+
+		mvc.perform(get("/api/reminders/1").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.message").value(exception.getMessage()));
+	}
 }

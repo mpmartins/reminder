@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Example;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mariopmartins.reminder.domain.Reminder;
 import com.mariopmartins.reminder.domain.ReminderStatus;
-import com.mariopmartins.reminder.repository.ReminderRepository;
+import com.mariopmartins.reminder.service.ReminderService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ReminderRestController.class)
@@ -33,7 +31,7 @@ public class ReminderRestControllerTest {
     private MockMvc mvc;
  
     @MockBean
-    private ReminderRepository reminderRepository;
+    private ReminderService reminderService;
 
 	private ObjectWriter jonObjectWriter;
  
@@ -51,11 +49,7 @@ public class ReminderRestControllerTest {
         reminder.setStatus(ReminderStatus.NOTDONE);
         List<Reminder> all = Arrays.asList(reminder);
      
-        Reminder reminderExample = new Reminder();
-		reminder.setDueDate(null);
-		reminder.setStatus(null);
-        
-        when(reminderRepository.findAll(Example.of(reminderExample))).thenReturn(all);
+        when(reminderService.findAll(null, null)).thenReturn(all);
      
         mvc.perform(get("/api/reminders")
           .contentType(MediaType.APPLICATION_JSON))
@@ -72,7 +66,7 @@ public class ReminderRestControllerTest {
         reminder.setName("Test");
         reminder.setStatus(ReminderStatus.NOTDONE);
      
-        when(reminderRepository.getOne(reminder.getId())).thenReturn(reminder);
+        when(reminderService.findById(reminder.getId())).thenReturn(reminder);
      
         mvc.perform(get("/api/reminders/1"))
           .andExpect(status().isOk())
@@ -88,7 +82,7 @@ public class ReminderRestControllerTest {
         reminder.setName("Test");
         reminder.setStatus(ReminderStatus.NOTDONE);
      
-        when(reminderRepository.save(reminder)).thenReturn(reminder);
+        when(reminderService.save(reminder)).thenReturn(reminder);
      
         String requestJson=jonObjectWriter.writeValueAsString(reminder);
         
@@ -108,7 +102,7 @@ public class ReminderRestControllerTest {
         reminder.setName("Test");
         reminder.setStatus(ReminderStatus.NOTDONE);
      
-        when(reminderRepository.findById(reminder.getId())).thenReturn(Optional.of(reminder));
+        when(reminderService.findById(reminder.getId())).thenReturn(reminder);
      
         String requestJson=jonObjectWriter.writeValueAsString(reminder);
         
