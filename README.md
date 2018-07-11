@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/mariopmartins/reminder.svg?branch=master)](https://travis-ci.org/mariopmartins/reminder) [![codecov](https://codecov.io/gh/mariopmartins/reminder/branch/master/graph/badge.svg)](https://codecov.io/gh/mariopmartins/reminder)
 
 ## Reminder Service
+https://mariopmartins-reminder.herokuapp.com/swagger-ui.html
 
 ### Build and run
 
