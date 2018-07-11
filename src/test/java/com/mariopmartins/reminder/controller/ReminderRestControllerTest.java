@@ -75,7 +75,7 @@ public class ReminderRestControllerTest {
     }
     
     @Test
-    public void givenReminders_whenAdd_thenReturnJsonArray() throws Exception {
+    public void givenReminders_whenAdd_thenReturnJson() throws Exception {
          
     	Reminder reminder = new Reminder();
         reminder.setId(1L);
@@ -95,7 +95,7 @@ public class ReminderRestControllerTest {
     }
 
     @Test
-    public void givenReminders_whenPutWithId_thenReturnJsonArray() throws Exception {
+    public void givenReminders_whenPutWithId_thenReturnOk() throws Exception {
          
     	Reminder reminder = new Reminder();
         reminder.setId(1L);
@@ -113,4 +113,10 @@ public class ReminderRestControllerTest {
         
     }
     
+    @Test
+    public void givenReminders_whenDeleteWithId_thenReturnOk() throws Exception {
+        mvc.perform(delete("/api/reminders/1")
+          .contentType(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk());
+    }
 }
