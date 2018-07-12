@@ -31,39 +31,39 @@ public class ReminderRestController {
 	private ReminderService reminderService;
 	
 	@GetMapping("/{id}")
-	@ApiOperation(value = "Find a Reminder by id", response = Reminder.class)
+	@ApiOperation(value = "Find a Reminder by id")
 	public ResponseEntity<Reminder> get(
-			@PathVariable(required=true) Long id) {
+			@PathVariable Long id) {
 		return ResponseEntity.ok(reminderService.findById(id));
 	}
 	
 	@GetMapping
-	@ApiOperation(value = "List Reminders by dueDate and/or status", notes = "Only present parameters will be used to filter the reminders.", response = Reminder.class, responseContainer = "Iterable")
+	@ApiOperation(value = "List Reminders by dueDate and/or status", notes = "Only present parameters will be used to filter the reminders.")
 	public ResponseEntity<Iterable<Reminder>> list(
-			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dueDate,
-			@RequestParam ReminderStatus status) {
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dueDate,
+			@RequestParam(required = false) ReminderStatus status) {
 		return ResponseEntity.ok(reminderService.findAll(dueDate, status));
 	}
 
 	@PostMapping
-	@ApiOperation(value = "Add a Reminder", response = Reminder.class)
+	@ApiOperation(value = "Add a Reminder")
 	public ResponseEntity<Reminder> add(
 			@RequestBody @Valid Reminder reminder) {
 		return ResponseEntity.ok(reminderService.save(reminder));
 	}
 
 	@PutMapping("/{id}")
-	@ApiOperation(value = "Update a Reminder", response = Reminder.class)
+	@ApiOperation(value = "Update a Reminder")
 	public ResponseEntity<Reminder> update(
-			@PathVariable(required=true) Long id, 
+			@PathVariable Long id, 
 			@RequestBody @Valid Reminder reminder) {
 		return ResponseEntity.ok(reminderService.update(id, reminder));
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "Delete a Reminder", response = Reminder.class)
+	@ApiOperation(value = "Delete a Reminder")
 	public void delete(
-			@PathVariable(required=true) Long id) {
+			@PathVariable Long id) {
 		reminderService.deleteById(id);
 	}
 
