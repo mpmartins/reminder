@@ -1,17 +1,20 @@
 [![Build Status](https://travis-ci.org/mariopmartins/reminder.svg?branch=master)](https://travis-ci.org/mariopmartins/reminder) [![codecov](https://codecov.io/gh/mariopmartins/reminder/branch/master/graph/badge.svg)](https://codecov.io/gh/mariopmartins/reminder)
 
 ## Reminder Service
-https://mariopmartins-reminder.herokuapp.com/swagger-ui.html
 
-### Build and run
+This project is an example on how to implement a simple microservice with REST endpoints using Spring Boot.
+
+You can access the REST API at : https://mariopmartins-reminder.herokuapp.com/swagger-ui.html
+
+### How to build and run
 
 #### Prerequisites
 
 - Java 8+
 
-#### From terminal
+#### From terminal and using Maven
 
-Go on the project's root folder, then type:
+Go on the project's root folder and type:
 
     $ ./mvnw spring-boot:run
 
@@ -21,6 +24,4 @@ Import as *Existing Maven Project* and run it as *Spring Boot App*.
 
 ### Usage
 
-- Run the application
-- Type the url `http://localhost:8080/swagger.html`: the swagger interface will show the existing endpoints and details on how to use them.
-
+After running the application, type the `http://localhost:8080/swagger.html` url to access the swagger interface and see all the available REST endpoints.
