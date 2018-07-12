@@ -37,7 +37,7 @@ public class Reminder implements Persistable<Long> {
 	@Size(max=255)
 	private String name;
 
-	@Size(max=1000000)
+	@Size(max=65532)
 	private String description;
 
 	private LocalDate dueDate;

@@ -7,14 +7,33 @@ import com.mariopmartins.reminder.domain.ReminderStatus;
 
 public interface ReminderService {
 
-	Reminder findById(Long id);
+	/**
+	 * Returns a Reminder
+	 * @throws ReminderNotFoundException
+	 */
+	Reminder findById(Long id) throws ReminderNotFoundException;
 
+	/**
+	 * Returns a Collection of Reminders filtered by dueDate and/or status.
+	 * if any of the parameters is null, that parameter is not considered to filter the search.
+	 */
 	Iterable<Reminder> findAll(LocalDate dueDate, ReminderStatus status);
 
-	Reminder update(Long id, Reminder reminder);
+	/**
+	 * Updates a reminder based on id.
+	 * @throws ReminderNotFoundException
+	 */
+	Reminder update(Long id, Reminder reminder) throws ReminderNotFoundException;
 	
+	/**
+	 * Saves the reminder object.
+	 * @return saved Reminder object
+	 */
 	Reminder save(Reminder reminder);
 
+	/**
+	 * Deletes the reminder based on the id
+	 */
 	void deleteById(Long id);
 
 }
